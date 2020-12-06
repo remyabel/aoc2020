@@ -1,7 +1,7 @@
 #include <algorithm>
-#include <iostream>
-#include <fstream>
 #include <cstring>
+#include <fstream>
+#include <iostream>
 
 int main() {
     std::ifstream ifs("input");
@@ -25,7 +25,8 @@ int main() {
     valid = 0;
     while (std::getline(ifs, input)) {
         std::sscanf(input.data(), "%i-%i %c: %99s", &min, &max, &c, s);
-        if ((s[min - 1] == c && s[max - 1] != c) || (s[min - 1] != c && s[max - 1] == c)) {
+        if ((s[min - 1] == c && s[max - 1] != c) ||
+            (s[min - 1] != c && s[max - 1] == c)) {
             ++valid;
         }
     }

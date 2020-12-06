@@ -1,8 +1,8 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <vector>
 
-int find_trees(int x_slope, int y_slope, std::vector<std::string> const& grid) {
+int find_trees(int x_slope, int y_slope, std::vector<std::string> const &grid) {
     int index = 0;
     int tree_count = 0;
     std::pair<int, int> coords = {0, 0};
@@ -28,9 +28,7 @@ int main() {
         grid.push_back(input);
     }
     std::cout << find_trees(3, 1, grid) << "\n";
-    std::cout << find_trees(1, 1, grid) *
-        find_trees(3, 1, grid) * 
-        find_trees(5, 1, grid) *
-        find_trees(7, 1, grid) *
-        find_trees(1, 2, grid);
+    std::cout << find_trees(1, 1, grid) * find_trees(3, 1, grid) *
+                     find_trees(5, 1, grid) * find_trees(7, 1, grid) *
+                     find_trees(1, 2, grid);
 }
