@@ -1,14 +1,13 @@
 #include <algorithm>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <numeric>
 #include <vector>
 
-bool has_sum(long long n, const std::vector<int>& preamble) {
+bool has_sum(long long n, const std::vector<int> &preamble) {
     for (auto i = 0; i < preamble.size(); ++i) {
         for (auto j = i; j < preamble.size(); ++j) {
-            if (preamble[i] + preamble[j] == n
-                    && preamble[i] != preamble[j]) {
+            if (preamble[i] + preamble[j] == n && preamble[i] != preamble[j]) {
                 return true;
             }
         }
@@ -25,7 +24,9 @@ int main() {
     int invalid_number;
     while (ifs >> n) {
         if (index >= preamble_size) {
-            if (!has_sum(n, std::vector<int>{preamble.begin() + index - preamble_size, preamble.begin() + index + preamble_size})) {
+            if (!has_sum(n, std::vector<int>{
+                                preamble.begin() + index - preamble_size,
+                                preamble.begin() + index + preamble_size})) {
                 invalid_number = n;
                 break;
             }
@@ -41,13 +42,13 @@ int main() {
         sum_range.clear();
         sum = 0;
         for (auto i = start_index; i < preamble.size(); ++i) {
-            if (preamble[i] >= invalid_number ||
-                    sum >= invalid_number)
+            if (preamble[i] >= invalid_number || sum >= invalid_number)
                 break;
             sum += preamble[i];
             sum_range.push_back(preamble[i]);
         }
         ++start_index;
     }
-    std::cout << *std::min_element(sum_range.begin(), sum_range.end()) + *std::max_element(sum_range.begin(), sum_range.end());
+    std::cout << *std::min_element(sum_range.begin(), sum_range.end()) +
+                     *std::max_element(sum_range.begin(), sum_range.end());
 }
