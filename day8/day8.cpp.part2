@@ -1,0 +1,76 @@
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <set>
+#include <sstream>
+#include <vector>
+
+struct instruction {
+    std::string op;
+    char sign;
+    int magnitude;
+};
+
+int main() {
+    std::srand(std::time(nullptr));
+    std::ifstream ifs("input");
+    std::string input;
+    std::vector<instruction> instructions;
+    while (std::getline(ifs, input)) {
+        instruction in;
+        std::istringstream iss(input);
+        std::string op;
+        std::string arg;
+        iss >> op;
+        iss >> arg;
+        in.op = op;
+        in.sign = arg[0];
+        in.magnitude = std::stoi(std::string{arg.begin() + 1, arg.end()});
+        instructions.push_back(in);
+    }
+    std::set<int> instructions_set;
+    int acc;
+    bool looping = true;
+    std::vector<instruction> instructions_copy;
+    while (looping) {
+        acc = 0;
+        instructions_set.clear();
+        instructions_copy = instructions;
+        auto instruction_to_change = rand() % instructions_copy.size();
+        while (instructions_copy[instruction_to_change].op != "jmp" &&
+               instructions_copy[instruction_to_change].op != "nop") {
+            instruction_to_change = rand() % instructions_copy.size();
+        }
+        instructions_copy[instruction_to_change].op =
+            (instructions_copy[instruction_to_change].op == "jmp" ? "nop"
+                                                                  : "jmp");
+        for (auto i = instructions_copy.begin();
+             i != instructions_copy.end();) {
+            looping = false;
+            if (instructions_set.find(i - instructions_copy.begin()) ==
+                instructions_set.end())
+                instructions_set.insert(i - instructions_copy.begin());
+            // We are looping
+            else {
+                looping = true;
+                break;
+            }
+            if (i->op == "acc") {
+                if (i->sign == '+')
+                    acc += i->magnitude;
+                else
+                    acc -= i->magnitude;
+            }
+            if (i->op == "jmp") {
+                if (i->sign == '+')
+                    i += i->magnitude;
+                else
+                    i -= i->magnitude;
+                continue;
+            }
+            ++i;
+        }
+    }
+    std::cout << acc;
+}
